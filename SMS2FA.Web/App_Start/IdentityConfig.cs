@@ -7,7 +7,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using SMS2FA.Web.Models;
-using System.Diagnostics;
+using Twilio;
+using WarmTransfer.Web.Domain;
 
 namespace SMS2FA.Web
 {
@@ -24,7 +25,13 @@ namespace SMS2FA.Web
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
+            var client = new TwilioRestClient(Config.AccountSID, Config.AuthToken);
+            var result = client.SendMessage(
+                Config.TwilioNumber,
+                message.Destination,
+                message.Body
+            );
+
             return Task.FromResult(0);
         }
     }
