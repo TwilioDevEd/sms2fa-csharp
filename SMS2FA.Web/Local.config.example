@@ -1,0 +1,6 @@
+﻿<?xml version="1.0"?>
+<appSettings>
+  <add key="AccountSid" value="ACCOUNT_SID" />
+  <add key="AuthToken" value="AUTH_TOKEN" />
+  <add key="TwilioNumber" value="TWILIO_NUMBER" />
+</appSettings>
