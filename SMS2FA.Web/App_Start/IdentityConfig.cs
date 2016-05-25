@@ -23,10 +23,21 @@ namespace SMS2FA.Web
 
     public class SmsService : IIdentityMessageService
     {
+        private readonly TwilioRestClient _client;
+
+        public SmsService()
+        {
+            _client = new TwilioRestClient(Config.AccountSID, Config.AuthToken);
+        }
+
+        public SmsService(TwilioRestClient client)
+        {
+            _client = client;
+        }
+
         public Task SendAsync(IdentityMessage message)
         {
-            var client = new TwilioRestClient(Config.AccountSID, Config.AuthToken);
-            var result = client.SendMessage(
+            var result = _client.SendMessage(
                 Config.TwilioNumber,
                 message.Destination,
                 message.Body
