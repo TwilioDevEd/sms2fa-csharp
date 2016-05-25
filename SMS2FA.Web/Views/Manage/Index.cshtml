@@ -1,11 +1,9 @@
 ﻿@model SMS2FA.Web.Models.IndexViewModel
-@{
-    ViewBag.Title = "Manage";
-}
 
-<h2>@ViewBag.Title.</h2>
+<h2>Manage</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
+
 <div>
     <h4>Change your account settings</h4>
     <hr />
@@ -22,11 +20,6 @@
                 @Html.ActionLink("Create", "SetPassword")
             }
             ]
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
         </dd>
         <dt>Phone Number:</dt>
         <dd>
