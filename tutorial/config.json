@@ -1,0 +1,6 @@
+{
+    "title": "SMS Two-Factor Authentication with Twilio",
+    "description": "Learn to implement SMS two-factor authentication in your web app with Twilio. 2FA helps further secure your users' data by validating more than just a password. This tutorial will show you the code to make it happen.",
+    "repo": "TwilioDevEd/sms2fa-csharp",
+    "heroku": false
+}
