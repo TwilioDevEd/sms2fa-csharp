@@ -63,14 +63,62 @@
   :markdown
     ## Registering a Two-Factor Provider
 
-    We use `manager`, which is an instance of the `ApplicationUserManager` to
-    register the `PhoneNumberTokenProvider` to send text messages.
+    [**Individual User
+    Accounts**](//www.asp.net/mvc/overview/security/create-an-aspnet-mvc-5-web-app-with-email-confirmation-and-password-reset)
+    authentication provides Two-Factor authentication almost ready out of the
+    box.  
+    To setup 2-step authentication you have to register the right provider
+    for your application.
+
+    We are registering the `PhoneNumberTokenProvider` to send text messages.
 
     ---
 
     **See Also:**
 
     * [PhoneNumberTokenProvider](//msdn.microsoft.com/en-us/library/dn613285.aspx)
+
+.step(
+  data-title='Sending the Verification Code',
+  data-file='SMS2FA.Web/Controllers/AccountController.cs',
+  data-highlight='297-315')
+  :markdown
+    ## Sending the Verification Code
+
+    When a user tries to login, the application needs to make sure the user
+    possess their phone number.
+
+    We have a Two-Factor authentication provider registered, which will be used
+    to to send a 6-digit validation code to validate the login.
+
+    ---
+
+    **See Also:**
+
+    * [SendTwoFactorCodeAsync](//msdn.microsoft.com/en-us/library/mt173763.aspx)
+
+.step(
+  data-title='Verifying the Code',
+  data-file='SMS2FA.Web/Controllers/AccountController.cs',
+  data-highlight='91-132')
+  :markdown
+    ## Verifying the Code
+
+    The user needs to have logged in with their credentials.
+
+    `TwoFactorSignInAsync` takes care of protecting the application against
+    brute force attacks by using an expirable verification code. If the user
+    enters incorrect codes their account will be locked out.
+
+    If the validation was successful the application allows the user to have
+    access to the protected content. Otherwise the application will prompt for
+    the validation code once again.
+
+    ---
+
+    **See Also:**
+
+    * [TwoFactorSignInAsync](//msdn.microsoft.com/en-us/library/mt173758.aspx)
 
 .step
   :markdown
