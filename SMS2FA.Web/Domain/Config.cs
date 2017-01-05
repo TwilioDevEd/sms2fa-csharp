@@ -1,22 +1,16 @@
 ﻿using System.Web.Configuration;
 
-namespace WarmTransfer.Web.Domain
+namespace SMS2FA.Web.Domain
 {
     public class Config
     {
-        public static string AccountSID
-        {
-            get { return WebConfigurationManager.AppSettings["AccountSID"]; }
-        }
+        public static string AccountSid => WebConfigurationManager.AppSettings["AccountSid"] ??
+                                           "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
-        public static string AuthToken
-        {
-            get { return WebConfigurationManager.AppSettings["AuthToken"]; }
-        }
+        public static string AuthToken => WebConfigurationManager.AppSettings["AuthToken"] ??
+                                          "aXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
-        public static string TwilioNumber
-        {
-            get { return WebConfigurationManager.AppSettings["TwilioNumber"]; }
-        }
+        public static string TwilioNumber => WebConfigurationManager.AppSettings["TwilioNumber"] ??
+                                             "+123456";
     }
 }
