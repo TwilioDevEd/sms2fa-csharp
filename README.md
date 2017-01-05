@@ -11,6 +11,8 @@ validating two "factors" of identity. Most login systems only validate a passwor
 known by the user. You can make it harder for evildoers to compromise a user
 account by also validating something a user has, such as their mobile phone.
 
+[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/sms-two-factor-authentication/csharp/mvc)!
+
 ## Local development
 
 This project is built using [ASP.NET MVC](http://www.asp.net/mvc) Framework.
@@ -29,7 +31,7 @@ This project is built using [ASP.NET MVC](http://www.asp.net/mvc) Framework.
    ```
 
    You can find your `AccountSid` and `AuthToken` in your
-   [Twilio Account Settings](https://www.twilio.com/user/account/settings).
+   [Twilio Console](https://www.twilio.com/console).
    You will also need a `TwilioNumber`, you may find it [here](https://www.twilio.com/user/account/phone-numbers/incoming).
 
 1. Build the solution.
