@@ -6,9 +6,12 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using SMS2FA.Web.Domain;
 using SMS2FA.Web.Models;
 using Twilio;
-using WarmTransfer.Web.Domain;
+using Twilio.Clients;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace SMS2FA.Web
 {
@@ -27,23 +30,22 @@ namespace SMS2FA.Web
 
         public SmsService()
         {
-            _client = new TwilioRestClient(Config.AccountSID, Config.AuthToken);
+            TwilioClient.Init(Config.AccountSid, Config.AuthToken);
         }
 
-        public SmsService(TwilioRestClient client)
+        public SmsService(ITwilioRestClient client)
         {
-            _client = client;
+            TwilioClient.Init(Config.AccountSid, Config.AuthToken);
+            TwilioClient.SetRestClient(client);
         }
 
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            var result = _client.SendMessage(
-                Config.TwilioNumber,
-                message.Destination,
-                message.Body
+            await MessageResource.CreateAsync(
+                new PhoneNumber(message.Destination),
+                from: new PhoneNumber(Config.TwilioNumber),
+                body: message.Body
             );
-
-            return Task.FromResult(0);
         }
     }
 
