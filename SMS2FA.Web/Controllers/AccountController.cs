@@ -135,6 +135,7 @@ namespace SMS2FA.Web.Controllers
                 model.Code,
                 isPersistent:  model.RememberMe,
                 rememberBrowser: model.RememberBrowser);
+
             switch (result)
             {
                 case SignInStatus.Success:
