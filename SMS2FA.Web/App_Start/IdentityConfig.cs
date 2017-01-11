@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AirTNG.Web.Domain.Reservations;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -26,26 +27,20 @@ namespace SMS2FA.Web
 
     public class SmsService : IIdentityMessageService
     {
-        private readonly TwilioRestClient _client;
+        private readonly ITwilioMessageSender _messageSender;
 
-        public SmsService()
-        {
-            TwilioClient.Init(Config.AccountSid, Config.AuthToken);
-        }
+        public SmsService() : this(new TwilioMessageSender()) { }
 
-        public SmsService(ITwilioRestClient client)
+        public SmsService(ITwilioMessageSender messageSender)
         {
-            TwilioClient.Init(Config.AccountSid, Config.AuthToken);
-            TwilioClient.SetRestClient(client);
+            _messageSender = messageSender;
         }
 
         public async Task SendAsync(IdentityMessage message)
         {
-            await MessageResource.CreateAsync(
-                new PhoneNumber(message.Destination),
-                from: new PhoneNumber(Config.TwilioNumber),
-                body: message.Body
-            );
+            await _messageSender.SendMessageAsync(message.Destination,
+                                                  Config.TwilioNumber,
+                                                  message.Body);
         }
     }
 
