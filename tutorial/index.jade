@@ -8,7 +8,7 @@
     demonstrates how to implement an SMS two-factor authentication using Twilio.
 
     _To run this application yourself [download the code and follow the
-    instructions on GitHub](https://github.com/TwilioDevEd/sms2fa-csharp)._
+    instructions on GitHub](//github.com/TwilioDevEd/sms2fa-csharp)._
 
     Adding two-factor authentication (2FA) to your web application increases the
     security of your user's data. [Multi-factor
@@ -22,7 +22,9 @@
     Once our user enters the verification code, we know they have received the SMS,
     and indeed are who they say they are. This is a standard SMS implementation.
 
-    For a slightly more advanced implementation using [Authy](https://www.twilio.com/authy) One-Touch checkout this [tutorial](//www.twilio.com/docs/tutorials/walkthrough/two-factor-authentication/python/flask).
+    For a slightly more advanced implementation using [Authy](//www.twilio.com/authy)
+    One-Touch checkout this
+    [tutorial](//www.twilio.com/docs/tutorials/walkthrough/two-factor-authentication/csharp/mvc).
 
     Let's get started!
 
@@ -31,11 +33,12 @@
     **See Also:**
 
     * [REST API: Sending SMS or MMS](//www.twilio.com/docs/api/rest/sending-messages)
+    * [Account Confirmation and Password Recovery with ASP.NET Identity](//go.microsoft.com/fwlink/?LinkID=320771)
 
 .step(
   data-title='Adding Two-Factor Authentication',
-  data-file='SMS2FA.Web/App_Start/IdentityConfig.cs',
-  data-highlight='28-31,38-47')
+  data-file='SMS2FA.Web/Domain/Twilio/TwilioMessageSender.cs',
+  data-highlight='15-25')
   :markdown
     ## Adding Two-Factor Authentication
 
@@ -61,7 +64,7 @@
 .step(
   data-title='Registering a Two-Factor Provider',
   data-file='SMS2FA.Web/App_Start/IdentityConfig.cs',
-  data-highlight='85-88,95')
+  data-highlight='87-90,97')
   :markdown
     ## Registering a Two-Factor Provider
 
@@ -83,7 +86,7 @@
 .step(
   data-title='Sending the Verification Code',
   data-file='SMS2FA.Web/Controllers/AccountController.cs',
-  data-highlight='297-315')
+  data-highlight='311-331')
   :markdown
     ## Sending the Verification Code
 
@@ -102,7 +105,7 @@
 .step(
   data-title='Verifying the Code',
   data-file='SMS2FA.Web/Controllers/AccountController.cs',
-  data-highlight='91-132')
+  data-highlight='101-150')
   :markdown
     ## Verifying the Code
 
