@@ -37,8 +37,8 @@
 
 .step(
   data-title='Adding Two-Factor Authentication',
-  data-file='SMS2FA.Web/App_Start/IdentityConfig.cs',
-  data-highlight='31-34,42-49')
+  data-file='SMS2FA.Web/Domain/Twilio/TwilioMessageSender.cs',
+  data-highlight='15-25')
   :markdown
     ## Adding Two-Factor Authentication
 
@@ -64,7 +64,7 @@
 .step(
   data-title='Registering a Two-Factor Provider',
   data-file='SMS2FA.Web/App_Start/IdentityConfig.cs',
-  data-highlight='92-95,102')
+  data-highlight='87-90,97')
   :markdown
     ## Registering a Two-Factor Provider
 
@@ -86,7 +86,7 @@
 .step(
   data-title='Sending the Verification Code',
   data-file='SMS2FA.Web/Controllers/AccountController.cs',
-  data-highlight='309-330')
+  data-highlight='311-331')
   :markdown
     ## Sending the Verification Code
 
@@ -105,7 +105,7 @@
 .step(
   data-title='Verifying the Code',
   data-file='SMS2FA.Web/Controllers/AccountController.cs',
-  data-highlight='100-149')
+  data-highlight='101-150')
   :markdown
     ## Verifying the Code
 
