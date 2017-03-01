@@ -19,7 +19,8 @@ namespace SMS2FA.Web.Controllers
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager,
+                                ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -29,11 +30,13 @@ namespace SMS2FA.Web.Controllers
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                return _signInManager ?? HttpContext
+                                             .GetOwinContext()
+                                             .Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -41,7 +44,9 @@ namespace SMS2FA.Web.Controllers
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext
+                                          .GetOwinContext()
+                                          .GetUserManager<ApplicationUserManager>();
             }
             private set
             {
@@ -81,13 +86,17 @@ namespace SMS2FA.Web.Controllers
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
             ManageMessageId? message;
-            var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+            var result = await UserManager.RemoveLoginAsync(
+                User.Identity.GetUserId(),
+                new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await SignInManager.SignInAsync(user,
+                                                    isPersistent: false,
+                                                    rememberBrowser: false);
                 }
                 message = ManageMessageId.RemoveLoginSuccess;
             }
@@ -116,7 +125,9 @@ namespace SMS2FA.Web.Controllers
                 return View(model);
             }
             // Generate the token and send it
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
+            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(
+                User.Identity.GetUserId(),
+                model.Number);
             if (UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
@@ -139,7 +150,9 @@ namespace SMS2FA.Web.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                await SignInManager.SignInAsync(user,
+                                                isPersistent: false,
+                                                rememberBrowser: false);
             }
             return RedirectToAction("Index", "Manage");
         }
@@ -163,9 +176,12 @@ namespace SMS2FA.Web.Controllers
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
+            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(
+                User.Identity.GetUserId(),
+                phoneNumber);
             // Send an SMS through the SMS provider to verify the phone number
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+            return phoneNumber == null ? View("Error") : View(
+                new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
         //
@@ -178,13 +194,18 @@ namespace SMS2FA.Web.Controllers
             {
                 return View(model);
             }
-            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
+            var result = await UserManager.ChangePhoneNumberAsync(
+                User.Identity.GetUserId(),
+                model.PhoneNumber,
+                model.Code);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await SignInManager.SignInAsync(user,
+                                                    isPersistent: false,
+                                                    rememberBrowser: false);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
@@ -229,7 +250,9 @@ namespace SMS2FA.Web.Controllers
             {
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(),
+                                                               model.OldPassword,
+                                                               model.NewPassword);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -289,7 +312,10 @@ namespace SMS2FA.Web.Controllers
                 return View("Error");
             }
             var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId());
-            var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
+            var otherLogins = AuthenticationManager
+                .GetExternalAuthenticationTypes()
+                .Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider))
+                .ToList();
             ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
             return View(new ManageLoginsViewModel
             {
@@ -305,20 +331,28 @@ namespace SMS2FA.Web.Controllers
         public ActionResult LinkLogin(string provider)
         {
             // Request a redirect to the external login provider to link a login for the current user
-            return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
+            return new AccountController.ChallengeResult(
+                provider,
+                Url.Action("LinkLoginCallback", "Manage"),
+                User.Identity.GetUserId());
         }
 
         //
         // GET: /Manage/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()
         {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(
+                XsrfKey,
+                User.Identity.GetUserId());
             if (loginInfo == null)
             {
                 return RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
             }
-            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
+                                                         loginInfo.Login);
+            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction(
+                "ManageLogins",
+                new { Message = ManageMessageId.Error });
         }
 
         protected override void Dispose(bool disposing)
