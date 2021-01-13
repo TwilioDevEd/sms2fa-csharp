@@ -207,3 +207,7 @@ FakesAssemblies/
 
 # Project
 SMS2FA.Web/Local.config
+
+# Libman
+**/Scripts/lib/
+!.gitkeep
