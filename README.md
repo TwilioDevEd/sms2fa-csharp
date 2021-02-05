@@ -4,7 +4,7 @@
 
 # SMS Two-Factor Authentication
 
-[![Build status](https://ci.appveyor.com/api/projects/status/bi338rcmhm1x9bx4?svg=true)](https://ci.appveyor.com/project/TwilioDevEd/sms2fa-csharp)
+![](https://github.com/TwilioDevEd/sms2fa-csharp/workflows/NetFx/badge.svg)
 
 SMS Two-Factor Authentication (SMS-2FA) helps keep your user accounts secure by
 validating two "factors" of identity. Most login systems only validate a password
@@ -38,7 +38,7 @@ This project is built using [ASP.NET MVC](http://www.asp.net/mvc) Framework.
 
 1. Create database and run migrations.
 
-   Make sure SQL Server is up and running.  
+   Make sure SQL Server is up and running with LocalDB support.  
    In Visual Studio, open the following command in the [Package Manager
    Console](https://docs.nuget.org/consume/package-manager-console).
 
